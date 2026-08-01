@@ -1,0 +1,17 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor/IDE
+.vscode/
+
+# DBeaver
+.dbeaver/
+DebugIt/
+
+# Env / secrets
+.env
+*.pgpass
+
+# Logs
+*.log
