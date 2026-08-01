@@ -11,8 +11,9 @@ Backend database schema for RevoShop, an online store. Built with PostgreSQL.
 - **orders** — placed by a user
 - **order_items** — junction table linking orders and products
 
-See `erd.png` for the full schema diagram.
+Check out `erd.png` for the full schema diagram.
 
+![alt text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/main/erd.png)
 
 ## Requirements
 
