@@ -76,3 +76,35 @@ If it prompts for your password and prints a version string, PostgreSQL is insta
 - The `users` table intentionally has **no `role` column** at this stage since it will be use via a schema migration in the next checkpoint.
 - All primary keys are named `id` and use `SERIAL` for auto-increment.
 
+---
+
+
+## Checkpoint 2 - Flask App Setup
+
+## Project Structure
+
+```text
+revoshop-db/
+├── database/
+│   ├── schema.sql        # from Checkpoint 1
+│   ├── seed.sql
+│   └── queries.sql
+├── img/
+│   ├── revoshop_db.png
+│   ├── erd.png
+│   └── postman/           # Checkpoint 2 demo screenshots
+├── app/
+│   ├── __init__.py       # app factory + db init
+│   ├── config.py         # SQLALCHEMY_DATABASE_URI
+│   ├── models.py         # User, Category, Product, Order, order_items
+│   └── routes/
+│       ├── __init__.py
+│       ├── products.py   # hardcoded product routes
+│       └── users.py      # register/retrieve routes
+├── migrations/            # created automatically by flask db init
+├── run.py                 # entry point
+├── requirements.txt
+├── .env.example
+├── .gitignore
+└── README.md
+```
