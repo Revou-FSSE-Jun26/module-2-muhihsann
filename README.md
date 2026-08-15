@@ -5,7 +5,8 @@ Backend database schema for RevoShop, an online store. Built with PostgreSQL.
 
 ## Entities
 Check out `revoshop_db.png` for the detailed server tree.
-https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/9db475d6cba4657acfe119d1c7a1f67aa6e38cd8/revoshop_db.png
+Link : https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/54a5868bddba67a29c1ee4a80558565a91f1e589/img/revoshop_db.png
+![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/54a5868bddba67a29c1ee4a80558565a91f1e589/img/revoshop_db.png)
 - **users** — customer accounts
 - **categories** — product categories
 - **products** — store items, each linked to a category
@@ -13,7 +14,8 @@ https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/9db475d6cba4657acfe1
 - **order_items** — junction table linking orders and products
 
 Check out `erd.png` for the full schema diagram.
-https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/212629f0957c46820301b312de8055b8fe40195e/erd.png
+Link : https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/54a5868bddba67a29c1ee4a80558565a91f1e589/img/erd.png
+![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/54a5868bddba67a29c1ee4a80558565a91f1e589/img/erd.png)
 
 
 ## Requirements
