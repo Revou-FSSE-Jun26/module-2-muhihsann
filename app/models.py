@@ -9,7 +9,7 @@ class User(db.Model):
     email = db.Column(db.String(255), nullable=False, unique=True)
     password_hash = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    # role column added via migration in Part 7 — do not add it here yet
+    role = db.Column(db.String(20), nullable=False, server_default="customer")
 
     orders = db.relationship("Order", backref="user", cascade=None)
 
