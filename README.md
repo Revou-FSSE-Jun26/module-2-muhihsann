@@ -5,8 +5,8 @@ Backend database schema for RevoShop, an online store. Built with PostgreSQL.
 
 ## Entities
 Check out `revoshop_db.png` for the detailed server tree.
-Link : https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/54a5868bddba67a29c1ee4a80558565a91f1e589/img/revoshop_db.png
-![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/54a5868bddba67a29c1ee4a80558565a91f1e589/img/revoshop_db.png)
+Link : https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/528355dab37fb801468dcadf24dc915c43288637/img/revoshop_db.png
+![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/528355dab37fb801468dcadf24dc915c43288637/img/revoshop_db.png)
 - **users** — customer accounts
 - **categories** — product categories
 - **products** — store items, each linked to a category
@@ -134,4 +134,33 @@ revoshop-db/
    - `POST /users`
    - `GET /users/<id>`
 
-Check out `img/postman` for the demo!
+
+---
+
+## Image Evidence 
+Check out `img/` and `img/postman/` for the full evidence
+
+**1. GET/products - List all active Products [200 OK]**
+![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/528355dab37fb801468dcadf24dc915c43288637/img/GET_all_products_postman.png)
+
+**2. GET/products/3 - List Products by the id [200 OK]**
+![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/528355dab37fb801468dcadf24dc915c43288637/img/GET_products3_postman.png)
+
+**3. GET/products/999 - List Products by the id : [404 Not Found Case]**
+![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/528355dab37fb801468dcadf24dc915c43288637/img/GET_products999_postman.png)
+
+**4. POST/Users - Create new Users [201 Created]**
+![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/89e1604bf9b02b4da73ed6ac17a3078203f432fd/img/POST_users5_postman.png)
+
+**5. GET/Users/5 - List Users by the id [200 OK]**
+![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/89e1604bf9b02b4da73ed6ac17a3078203f432fd/img/postman/GET_users5_postman.png)
+
+**6. GET/Users/999 - List Users by the id : [404 Not Found Case]**
+![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/89e1604bf9b02b4da73ed6ac17a3078203f432fd/img/postman/GET_users999_postman.png)
+
+**7. Added the role column to Users without affecting existing rows**
+![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/89e1604bf9b02b4da73ed6ac17a3078203f432fd/img/added_users5_role.png)
+
+**8. The order_items association table exists, many-to-many verification**
+![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/89e1604bf9b02b4da73ed6ac17a3078203f432fd/img/many_to_many.png)
+Order 1 is linked to two products (Wireless Mouse and Mechanical Keyboard), demonstrating the many-to-many relationship between `orders` and `products` through the `order_items` association table.
