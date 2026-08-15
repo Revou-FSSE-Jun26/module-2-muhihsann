@@ -15,3 +15,13 @@ DebugIt/
 
 # Logs
 *.log
+
+# Python / Flask
+   venv/
+   env/
+   __pycache__/
+   *.pyc
+   *.pyo
+   instance/
+   .pytest_cache/
+   *.egg-info/
