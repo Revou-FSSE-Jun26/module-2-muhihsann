@@ -71,11 +71,6 @@ If it prompts for your password and prints a version string, PostgreSQL is insta
    (Or in DBeaver/pgAdmin's GUI : open `queries.sql` in a SQL editor on `revoshop_db` and run each statement with **Ctrl+Enter**, or the whole file with **Execute SQL Script**.)
 
 
-## Notes
-
-- The `users` table intentionally has **no `role` column** at this stage since it will be use via a schema migration in the next checkpoint.
-- All primary keys are named `id` and use `SERIAL` for auto-increment.
-
 ---
 
 
@@ -108,3 +103,35 @@ revoshop-db/
 ├── .gitignore
 └── README.md
 ```
+
+## Setup Guide
+
+1. Create and activate a virtual environment, then install dependencies:
+```bash
+   python -m venv venv
+
+   ### MacOS and Linux :
+   source venv/bin/activate
+
+   ### Windows : 
+   .\venv\Scripts\Activate.ps1
+   
+   pip install -r requirements.txt
+```
+2. Copy `.env.example` to `.env` and fill in the real PostgreSQL password. (eg.: postgres)
+3. Run the migrations against your existing `revoshop_db`:
+```bash
+   export FLASK_APP=run.py
+   flask db upgrade
+```
+4. Start the app:
+```bash
+   python run.py
+```
+5. Test routes via Postman or `curl`:
+   - `GET /products`
+   - `GET /products/<id>`
+   - `POST /users`
+   - `GET /users/<id>`
+
+Check out `img/postman` for the demo!
