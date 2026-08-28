@@ -164,3 +164,187 @@ Check out `img/` and `img/postman/` for the full evidence
 **8. The order_items association table exists, many-to-many verification**
 ![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/89e1604bf9b02b4da73ed6ac17a3078203f432fd/img/many_to_many.png)
 Order 1 is linked to two products (Wireless Mouse and Mechanical Keyboard), demonstrating the many-to-many relationship between `orders` and `products` through the `order_items` association table.
+
+
+---
+
+## Checkpoint 3 - Full API, Testing & Quality Assurance
+
+### Overview
+
+RevoShop is a backend system for an online store. It exposes a REST API built with
+Flask and SQLAlchemy on top of a PostgreSQL database, covering user registration and
+login, product and category management, and order placement with a many-to-many
+relationship between orders and products.
+
+### Features Implemented
+
+- **Full CRUD for Products** — create, list, retrieve, update, and delete, with the
+  delete blocked when a product is still linked to active orders (pending, processing,
+  or shipped).
+- **Full CRUD for Categories** — create, list, retrieve (including the category's
+  products), update, and delete.
+- **Full CRUD for Orders** — place an order linked to a user, list a user's orders,
+  view a single order with its items and product details, update, and delete.
+- **User registration and login** — `POST /users` and `POST /auth/login`.
+- **Many-to-many relationship** between orders and products through the `order_items`
+  association table (with `quantity` and `unit_price` captured at time of purchase).
+- **Data validation** on product and category input (required fields, non-negative
+  price and stock, valid category reference).
+- **Error handling** with `try/except` and `db.session.rollback()`, returning
+  meaningful JSON error messages with appropriate HTTP status codes.
+- **Deletion guard** preventing removal of a product that still has active orders.
+
+### API Endpoints
+
+| Module     | Method | Endpoint               | Description                                   |
+|------------|--------|------------------------|-----------------------------------------------|
+| User       | POST   | `/users`               | Register a new user                           |
+| Auth       | POST   | `/auth/login`          | Log in                                        |
+| Product    | POST   | `/products`            | Create a new product                          |
+| Product    | GET    | `/products`            | List all products                             |
+| Product    | GET    | `/products/<id>`       | Get a specific product                        |
+| Product    | PUT    | `/products/<id>`       | Update a product                              |
+| Product    | DELETE | `/products/<id>`       | Delete a product (blocked if active orders)   |
+| Category   | POST   | `/categories`          | Create a new category                         |
+| Category   | GET    | `/categories`          | List all categories                           |
+| Category   | GET    | `/categories/<id>`     | Get a category with its products              |
+| Category   | PUT    | `/categories/<id>`     | Update a category                             |
+| Category   | DELETE | `/categories/<id>`     | Delete a category                             |
+| Order      | POST   | `/orders`              | Place a new order (send `user_id` in body)    |
+| Order      | GET    | `/orders?user_id=<id>` | List all orders for a user                    |
+| Order      | GET    | `/orders/<id>`         | View an order with items and product details  |
+| Order      | PUT    | `/orders/<id>`         | Update an order (e.g. status)                 |
+| Order      | DELETE | `/orders/<id>`         | Delete an order                               |
+
+### Technologies Used
+
+- Flask
+- SQLAlchemy
+- Flask-Migrate
+- PostgreSQL
+- pgAdmin / DBeaver
+- pytest
+- Locust
+- python-dotenv
+
+### Environment Variables
+
+Sensitive configuration lives in a `.env` file (never committed) and is read via
+`python-dotenv` and `os.getenv()`. A safe-to-commit `.env.example` provides
+placeholders:
+
+```text
+DATABASE_URL=postgresql://user:password@localhost:5432/revoshop_db
+SECRET_KEY=your-secret-key-here
+DEBUG=True
+```
+
+Copy it to `.env` and fill in your real values:
+
+```bash
+cp .env.example .env
+```
+
+### How to Run Locally
+
+```bash
+# 1. Clone the repo
+git clone <repo-url>
+cd module-2-muhihsann
+
+# 2. Create and activate a virtual environment
+python -m venv venv
+# Windows:
+.\venv\Scripts\Activate.ps1
+# macOS / Linux:
+source venv/bin/activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Copy environment variables and fill in your DB password
+cp .env.example .env
+
+# 5. Apply migrations (creates all tables incl. the role column)
+flask db upgrade
+
+# 6. (Optional) Seed sample data
+psql -U postgres -d revoshop_db -f database/seed.sql
+
+# 7. Run the app
+python run.py
+```
+
+### Running the Tests
+
+Category CRUD is covered by pytest, testing both happy-path and error cases:
+
+```bash
+pytest tests/test_categories.py -v
+```
+
+### Running the Load Test (Locust)
+
+With the Flask server running on port 5000, start Locust in another terminal:
+
+```bash
+locust -f locustfile.py --host http://127.0.0.1:5000
+```
+
+Open <http://localhost:8089>, set the number of users (tested from 50 up to 200 with a
+spawn rate of 10) and start the simulation. The load test runs a sequential user
+journey: list products, get a single product, place an order, then fetch the created
+order.
+
+---
+
+## Checkpoint 3 - Image Evidence
+
+Check out the `img/` folder for the full evidence:
+
+- `img/postman/CRUD/` — Postman requests for the full CRUD cycle (POST, GET, PUT,
+  DELETE) plus login and error cases (400 / 404 / 409).
+- `img/pytest/` — pytest run showing all Category CRUD tests passing.
+- `img/locust/` — Locust dashboards and charts for 50, 100, 150, and 200 users.
+- `img/added_users5_role.png` — the `role` column added to `users`.
+- `img/many_to_many.png` — the `order_items` association table linking one order to
+  multiple products.
+
+**Product CRUD cycle (Postman)**
+
+Create → Fetch → Update → Delete:
+
+![POST new product](img/postman/CRUD/POST_newproducts.png)
+![GET new product](img/postman/CRUD/GET_newproducts9.png)
+![PUT product](img/postman/CRUD/PUT_products9.png)
+![DELETE product](img/postman/CRUD/DEL_products9.png)
+
+**Validation and error cases (Postman)**
+
+![POST 409 already exists](img/postman/CRUD/POST_409alreadyexists.png)
+![PUT 400 bad request](img/postman/CRUD/PUT_400badrequest.png)
+![GET 404 not found](img/postman/CRUD/GET_products99_404.png)
+![DELETE 404 not found](img/postman/CRUD/DEL_products10_404.png)
+
+**Login (Postman)**
+
+![Auth login](img/postman/CRUD/Auth%20Login%20User5.png)
+
+**pytest — Category CRUD tests passing**
+
+![pytest results](img/pytest/pytest.png)
+
+**Locust — load test (50 to 200 users)**
+
+![Locust 50 users](img/locust/Locust_50U_10Rate.png)
+![Locust 100 users](img/locust/Locust_100U_10Rate.png)
+![Locust 150 users](img/locust/Locust_150U_10Rate.png)
+![Locust 200 users](img/locust/Locust_200U_10Rate.png)
+
+**Locust — charts (50 to 200 users)**
+
+![Locust chart 50 users](img/locust/LocustChart_50U_10Rate.png)
+![Locust chart 100 users](img/locust/LocustChart_100U_10Rate.png)
+![Locust chart 150 users](img/locust/LocustChart_150U_10Rate.png)
+![Locust chart 200 users](img/locust/LocustChart_200U_10Rate.png)
