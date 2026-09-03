@@ -4,18 +4,16 @@ Backend database schema for RevoShop, an online store. Built with PostgreSQL.
 
 
 ## Entities
-Check out `revoshop_db.png` for the detailed server tree.
-Link : https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/528355dab37fb801468dcadf24dc915c43288637/img/revoshop_db.png
-![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/528355dab37fb801468dcadf24dc915c43288637/img/revoshop_db.png)
+Check out `img/revoshop_db.png` for the detailed server tree.
+![RevoShop DB server tree](img/revoshop_db.png)
 - **users** — customer accounts
 - **categories** — product categories
 - **products** — store items, each linked to a category
 - **orders** — placed by a user
 - **order_items** — junction table linking orders and products
 
-Check out `erd.png` for the full schema diagram.
-Link : https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/54a5868bddba67a29c1ee4a80558565a91f1e589/img/erd.png
-![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/54a5868bddba67a29c1ee4a80558565a91f1e589/img/erd.png)
+Check out `img/erd.png` for the full schema diagram.
+![ERD schema diagram](img/erd.png)
 
 
 ## Requirements
@@ -141,28 +139,28 @@ revoshop-db/
 Check out `img/` and `img/postman/` for the full evidence
 
 **1. GET/products - List all active Products [200 OK]**
-![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/528355dab37fb801468dcadf24dc915c43288637/img/GET_all_products_postman.png)
+![GET all products](img/postman/GET_all_products_postman.png)
 
 **2. GET/products/3 - List Products by the id [200 OK]**
-![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/528355dab37fb801468dcadf24dc915c43288637/img/GET_products3_postman.png)
+![GET product 3](img/postman/GET_products3_postman.png)
 
 **3. GET/products/999 - List Products by the id : [404 Not Found Case]**
-![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/528355dab37fb801468dcadf24dc915c43288637/img/GET_products999_postman.png)
+![GET product 999 not found](img/postman/GET_products999_postman.png)
 
 **4. POST/Users - Create new Users [201 Created]**
-![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/89e1604bf9b02b4da73ed6ac17a3078203f432fd/img/POST_users5_postman.png)
+![POST new user](img/postman/POST_users5_postman.png)
 
 **5. GET/Users/5 - List Users by the id [200 OK]**
-![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/89e1604bf9b02b4da73ed6ac17a3078203f432fd/img/postman/GET_users5_postman.png)
+![GET user 5](img/postman/GET_users5_postman.png)
 
 **6. GET/Users/999 - List Users by the id : [404 Not Found Case]**
-![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/89e1604bf9b02b4da73ed6ac17a3078203f432fd/img/postman/GET_users999_postman.png)
+![GET user 999 not found](img/postman/GET_users999_postman.png)
 
 **7. Added the role column to Users without affecting existing rows**
-![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/89e1604bf9b02b4da73ed6ac17a3078203f432fd/img/added_users5_role.png)
+![role column added](img/added_users5_role.png)
 
 **8. The order_items association table exists, many-to-many verification**
-![Alt_Text](https://github.com/Revou-FSSE-Jun26/module-2-muhihsann/blob/89e1604bf9b02b4da73ed6ac17a3078203f432fd/img/many_to_many.png)
+![many-to-many verification](img/many_to_many.png)
 Order 1 is linked to two products (Wireless Mouse and Mechanical Keyboard), demonstrating the many-to-many relationship between `orders` and `products` through the `order_items` association table.
 
 
@@ -176,6 +174,26 @@ RevoShop is a backend system for an online store. It exposes a REST API built wi
 Flask and SQLAlchemy on top of a PostgreSQL database, covering user registration and
 login, product and category management, and order placement with a many-to-many
 relationship between orders and products.
+
+### Live Deployment
+
+The API is deployed and publicly accessible on Render, backed by a hosted PostgreSQL
+database on Supabase:
+
+**Base URL:** <https://revoshop-sgjp.onrender.com>
+
+The Flask backend runs under Gunicorn on Render, with all migrations applied to the
+Supabase database via `flask db upgrade`. Sensitive configuration (`DATABASE_URL`,
+`SECRET_KEY`, `DEBUG`) is provided through Render's environment variables rather than a
+committed `.env` file. All CRUD endpoints are reachable at the base URL above — for
+example:
+
+- `GET https://revoshop-sgjp.onrender.com/products` — list all products
+- `GET https://revoshop-sgjp.onrender.com/products/1` — get a single product
+- `GET https://revoshop-sgjp.onrender.com/categories` — list all categories
+
+> Note: On Render's free tier the service sleeps after inactivity, so the first request
+> after an idle period may take a few seconds to spin up.
 
 ### Features Implemented
 
@@ -222,11 +240,13 @@ relationship between orders and products.
 - Flask
 - SQLAlchemy
 - Flask-Migrate
-- PostgreSQL
+- PostgreSQL (hosted on Supabase)
 - pgAdmin / DBeaver
 - pytest
 - Locust
 - python-dotenv
+- gunicorn (production WSGI server)
+- Render (deployment platform)
 
 ### Environment Variables
 
