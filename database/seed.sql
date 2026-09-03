@@ -1,4 +1,4 @@
--- Sample data for RevoShop
+    -- Sample data for RevoShop
 -- seed.sql
 
 
